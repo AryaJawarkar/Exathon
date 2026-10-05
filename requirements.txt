@@ -1,0 +1,17 @@
+# Exasol driver
+pyexasol==0.27.0
+
+# Data & ML
+pandas==2.2.2
+numpy==1.26.4
+scikit-learn==1.5.1
+
+# Synthetic data
+Faker==26.0.0
+
+# Dashboard
+streamlit==1.37.1
+plotly==5.23.0
+
+# Config
+python-dotenv==1.0.1

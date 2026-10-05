@@ -1,0 +1,30 @@
+# Local Exasol Personal for development.
+#
+# Exasol Personal is the free single-node edition used for ExaThon. For local
+# development the community `exasol/docker-db` image gives you the same engine
+# and SQL surface. If you run Exasol Personal on AWS/Azure instead, skip this
+# file and just point EXA_DSN / EXA_USER / EXA_PASSWORD in .env at that host.
+#
+# Start:  docker compose up -d
+# Ready:  first boot takes ~2-3 min; check `docker compose logs -f exasol`.
+# Connect: localhost:8563  user=sys  password=exasol
+
+services:
+  exasol:
+    image: exasol/docker-db:8.32.0
+    container_name: exathon-exasol
+    privileged: true
+    ports:
+      - "8563:8563" # SQL client port (pyexasol)
+      - "8835:8835" # RPC / admin
+    volumes:
+      - exa-volume:/exa
+    healthcheck:
+      test: ["CMD", "bash", "-lc", "exaplus -c localhost:8563 -u sys -p exasol -sql 'SELECT 1;' || exit 1"]
+      interval: 20s
+      timeout: 10s
+      retries: 15
+      start_period: 180s
+
+volumes:
+  exa-volume:
